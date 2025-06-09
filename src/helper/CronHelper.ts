@@ -10,7 +10,7 @@ export class CronHelper {
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async appointmentReminder() {
     const notif = await axios.post(
-      'http://localhost:7000/user/notification/appointment/reminder',
+      'https://immunify-api.vercel.app/user/notification/appointment/reminder',
       null,
       {
         headers: {
