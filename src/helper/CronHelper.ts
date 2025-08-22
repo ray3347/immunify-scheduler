@@ -29,59 +29,74 @@ export class CronHelper {
   }
 
   // @Cron(CronExpression.EVERY_DAY_AT_8AM)
-  async checkInBinaInovasiGlobal(){
-    const user:IBigLogin = await axios.get("https://bigtech.co.id/bigworks/api/auth/session",
+  async checkInBinaInovasiGlobal() {
+    const user: IBigLogin = await axios.get(
+      'https://bigtech.co.id/bigworks/api/auth/session',
       null,
       {
-        headers:{
-          Cookie: process.env.AUTH_KEY
-        }
-      }
-    )
+        headers: {
+          Cookie: process.env.AUTH_KEY,
+        },
+      },
+    );
 
-    await axios.get("https://bigtech.co.id/bigworks-api/v1/attendance/clock-in",null,
+    await axios.get(
+      'https://bigtech.co.id/bigworks-api/v1/attendance/clock-in',
+      null,
       {
-        headers:{
-          Authorization: `Bearer ${user.accessToken}`
-        }
-      }
-    )
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      },
+    );
     // https://bigtech.co.id/bigworks-api/v1/attendance/clock-in
   }
 
   // @Cron(CronExpression.EVERY_DAY_AT_6PM)
-  async checkOutBinaInovasiGlobal(){
-    const user:IBigLogin = await axios.get("https://bigtech.co.id/bigworks/api/auth/session",
+  async checkOutBinaInovasiGlobal() {
+    const user: IBigLogin = await axios.get(
+      'https://bigtech.co.id/bigworks/api/auth/session',
       null,
       {
-        headers:{
-          Cookie: process.env.AUTH_KEY
-        }
-      }
-    )
+        headers: {
+          Cookie: process.env.AUTH_KEY,
+        },
+      },
+    );
 
-    const checkoutObj : IBigClockOut= {
-      projects:[
-        {
-          key: 1,
-          project_id: 54,
-          regular_hours: 8,
-          overtime_hours: 0,
-          notes: "-"
-        }
-      ],
-      work_location: 1
-    }
+    // const checkoutObj: IBigClockOut = {
+    //   projects: [
+    //     {
+    //       key: 1,
+    //       project_id: 54,
+    //       regular_hours: 8,
+    //       overtime_hours: 0,
+    //       notes: '-',
+    //     },
+    //   ],
+    //   work_location: 1,
+    // };
 
-    await axios.post('https://bigtech.co.id/bigworks-api/v1/attendance/clock-out',
-      checkoutObj,
+    await axios.post(
+      'https://bigtech.co.id/bigworks-api/v1/attendance/clock-out',
       {
-        headers:{
-          Authorization: `Bearer ${user.accessToken}`
-        }
-      }
-
-    )
+        projects: [
+          {
+            key: 1,
+            project_id: 54,
+            regular_hours: 8,
+            overtime_hours: 0,
+            notes: '-',
+          },
+        ],
+        work_location: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      },
+    );
 
     // https://bigtech.co.id/bigworks-api/v1/attendance/clock-out
     // {"projects":[{"key":1,"project_id":54,"regular_hours":8,"overtime_hours":0,"notes":"-"}],"work_location":1}
